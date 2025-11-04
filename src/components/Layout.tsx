@@ -63,35 +63,6 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
               <p className="text-sm text-muted-foreground mb-4">
                 AI-powered deepfake detection to protect you from misinformation and keep the digital world trustworthy.
               </p>
-              <div className="flex gap-4">
-                <a
-                  href="https://twitter.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-full bg-secondary hover:bg-primary/20 flex items-center justify-center transition-colors"
-                  aria-label="Twitter"
-                >
-                  <Twitter className="w-5 h-5 text-foreground" />
-                </a>
-                <a
-                  href="https://github.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-full bg-secondary hover:bg-primary/20 flex items-center justify-center transition-colors"
-                  aria-label="GitHub"
-                >
-                  <Github className="w-5 h-5 text-foreground" />
-                </a>
-                <a
-                  href="https://linkedin.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-full bg-secondary hover:bg-primary/20 flex items-center justify-center transition-colors"
-                  aria-label="LinkedIn"
-                >
-                  <Linkedin className="w-5 h-5 text-foreground" />
-                </a>
-              </div>
             </div>
 
             {/* Product Links */}
