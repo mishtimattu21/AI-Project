@@ -1,0 +1,190 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* Warm beige background palette */
+    --background: 35 30% 97%;
+    --foreground: 28 25% 25%;
+
+    /* Glass-effect cards */
+    --card: 35 35% 95%;
+    --card-foreground: 28 25% 25%;
+
+    --popover: 35 35% 95%;
+    --popover-foreground: 28 25% 25%;
+
+    /* Warm brown primary */
+    --primary: 28 35% 45%;
+    --primary-foreground: 35 30% 97%;
+
+    /* Soft beige secondary */
+    --secondary: 35 25% 85%;
+    --secondary-foreground: 28 25% 25%;
+
+    /* Muted tones */
+    --muted: 35 20% 90%;
+    --muted-foreground: 28 15% 50%;
+
+    /* Accent - darker brown */
+    --accent: 25 40% 35%;
+    --accent-foreground: 35 30% 97%;
+
+    /* Destructive - warm red */
+    --destructive: 0 70% 55%;
+    --destructive-foreground: 35 30% 97%;
+
+    /* Success - warm green */
+    --success: 120 40% 50%;
+    --success-foreground: 35 30% 97%;
+
+    /* Border and inputs - soft beige */
+    --border: 35 20% 85%;
+    --input: 35 20% 85%;
+    --ring: 28 35% 45%;
+
+    --radius: 1rem;
+    
+    /* Custom gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(35 30% 97%) 0%, hsl(35 25% 90%) 50%, hsl(28 20% 85%) 100%);
+    --gradient-hero: linear-gradient(135deg, hsl(35 35% 92%) 0%, hsl(30 30% 88%) 100%);
+    
+    /* Shadows */
+    --shadow-soft: 0 4px 20px -2px hsl(28 25% 25% / 0.08);
+    --shadow-medium: 0 8px 30px -4px hsl(28 25% 25% / 0.12);
+    --shadow-glass: 0 8px 32px 0 hsl(28 25% 25% / 0.1);
+    
+    /* Animations */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 28 25% 12%;
+    --foreground: 35 30% 92%;
+
+    --card: 28 20% 15%;
+    --card-foreground: 35 30% 92%;
+
+    --popover: 28 20% 15%;
+    --popover-foreground: 35 30% 92%;
+
+    --primary: 35 40% 70%;
+    --primary-foreground: 28 25% 12%;
+
+    --secondary: 28 15% 25%;
+    --secondary-foreground: 35 30% 92%;
+
+    --muted: 28 15% 25%;
+    --muted-foreground: 35 15% 60%;
+
+    --accent: 28 30% 35%;
+    --accent-foreground: 35 30% 92%;
+
+    --destructive: 0 65% 45%;
+    --destructive-foreground: 35 30% 92%;
+
+    --success: 120 35% 45%;
+    --success-foreground: 35 30% 92%;
+
+    --border: 28 15% 25%;
+    --input: 28 15% 25%;
+    --ring: 35 40% 70%;
+    
+    --gradient-primary: linear-gradient(135deg, hsl(28 25% 12%) 0%, hsl(28 20% 18%) 50%, hsl(28 15% 22%) 100%);
+    --gradient-hero: linear-gradient(135deg, hsl(28 20% 15%) 0%, hsl(25 18% 20%) 100%);
+    
+    --shadow-soft: 0 4px 20px -2px hsl(0 0% 0% / 0.3);
+    --shadow-medium: 0 8px 30px -4px hsl(0 0% 0% / 0.4);
+    --shadow-glass: 0 8px 32px 0 hsl(0 0% 0% / 0.3);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans;
+    font-family: 'Poppins', sans-serif;
+  }
+}
+
+@layer utilities {
+  .glass-card {
+    @apply backdrop-blur-md bg-card/80 border border-border/50;
+    box-shadow: var(--shadow-glass);
+  }
+  
+  .gradient-bg {
+    background: var(--gradient-primary);
+  }
+  
+  .gradient-hero {
+    background: var(--gradient-hero);
+  }
+  
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+  
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-20px);
+    }
+  }
+  
+  .animate-fade-in {
+    animation: fadeIn 0.6s ease-out forwards;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .animate-slide-in {
+    animation: slideIn 0.5s ease-out forwards;
+  }
+  
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateX(-30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+}
