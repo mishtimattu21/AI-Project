@@ -9,6 +9,7 @@ const Detection = () => {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [result, setResult] = useState<"real" | "fake" | null>(null);
+  const [score, setScore] = useState<number | null>(null);
   const { toast } = useToast();
 
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -42,20 +43,51 @@ const Detection = () => {
     if (!selectedFile) return;
 
     setIsAnalyzing(true);
-    
-    // Mock AI detection (random result for demonstration)
-    setTimeout(() => {
-      const mockResult = Math.random() > 0.5 ? "real" : "fake";
-      setResult(mockResult);
-      setIsAnalyzing(false);
-      
-      toast({
-        title: mockResult === "real" ? "Analysis Complete" : "Deepfake Detected",
-        description: mockResult === "real" 
-          ? "This image appears to be authentic"
-          : "This image may be AI-generated or manipulated",
+
+    const API_URL = (import.meta as any).env?.VITE_API_URL || "http://localhost:8000";
+    const endpoint = `${API_URL.replace(/\/$/, "")}/predict`;
+
+    try {
+      const formData = new FormData();
+      formData.append("file", selectedFile);
+
+      const response = await fetch(endpoint, {
+        method: "POST",
+        body: formData,
       });
-    }, 2000);
+
+      if (!response.ok) {
+        const msg = await response.text();
+        throw new Error(msg || `Server error (${response.status})`);
+      }
+
+      const data: { label?: "real" | "fake"; score?: number } = await response.json();
+      if (!data || !data.label) {
+        throw new Error("Invalid response from server");
+      }
+
+      setResult(data.label);
+      setScore(typeof data.score === "number" ? data.score : null);
+
+      toast({
+        title: data.label === "real" ? "Analysis Complete" : "Deepfake Detected",
+        description:
+          data.label === "real"
+            ? `This image appears to be authentic${data.score != null ? ` (confidence ${Math.round((data.score || 0) * 100)}%)` : ""}`
+            : `This image may be AI-generated${data.score != null ? ` (confidence ${Math.round((data.score || 0) * 100)}%)` : ""}`,
+      });
+    } catch (err: any) {
+      console.error("Detection error:", err);
+      setResult(null);
+      setScore(null);
+      toast({
+        title: "Detection failed",
+        description: err?.message || "An unexpected error occurred",
+        variant: "destructive",
+      });
+    } finally {
+      setIsAnalyzing(false);
+    }
   };
 
   return (
@@ -124,8 +156,12 @@ const Detection = () => {
                         </h3>
                         <p className="text-sm text-muted-foreground mt-1">
                           {result === "real"
-                            ? "Our AI analysis suggests this image is likely genuine and unmanipulated."
-                            : "Our AI analysis detected potential signs of manipulation or generation."}
+                            ? `Our AI analysis suggests this image is likely genuine.${
+                                score != null ? ` Confidence: ${Math.round(score * 100)}%` : ""
+                              }`
+                            : `Our AI analysis detected potential signs of manipulation.${
+                                score != null ? ` Confidence: ${Math.round(score * 100)}%` : ""
+                              }`}
                         </p>
                       </div>
                     </div>
@@ -151,6 +187,7 @@ const Detection = () => {
                         setSelectedFile(null);
                         setPreviewUrl(null);
                         setResult(null);
+                        setScore(null);
                       }}
                       variant="outline"
                       className="h-12 px-8"
